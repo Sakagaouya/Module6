@@ -56,6 +56,13 @@ namespace TPDojo1.Controllers
             {
                 if (vm.IdSelectedArme != null)
                 {
+                    var samouraiAvecArmeSelectionnee = db.Samourais.Where(x => x.Arme.Id == vm.IdSelectedArme).ToList();
+
+                    foreach (var item in samouraiAvecArmeSelectionnee)
+                    {
+                        item.Arme = null;
+                        db.Entry(item).State = EntityState.Modified;
+                    }
                     vm.Samourai.Arme = db.Armes.Find(vm.IdSelectedArme);
                 }
 
@@ -99,7 +106,24 @@ namespace TPDojo1.Controllers
 
             if (vm.IdSelectedArme != null)
             {
-                vm.Samourai.Arme = db.Armes.FirstOrDefault(a => a.Id == vm.IdSelectedArme.Value);
+                var samouraiAvecArmeSelectionnee = db.Samourais.Where(x => x.Arme.Id == vm.IdSelectedArme).ToList();
+
+                Arme arme = null;
+                foreach (var item in samouraiAvecArmeSelectionnee)
+                {
+                    arme = item.Arme;
+                    item.Arme = null;
+                    db.Entry(item).State = EntityState.Modified;
+                }
+
+                if (arme == null)
+                {
+                    vm.Samourai.Arme = db.Armes.FirstOrDefault(x => x.Id == vm.IdSelectedArme);
+                }
+                else
+                {
+                    vm.Samourai.Arme = arme;
+                }
             }
             else
             {
