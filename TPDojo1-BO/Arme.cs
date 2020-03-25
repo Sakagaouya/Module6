@@ -1,8 +1,7 @@
 ﻿namespace TPDojo1_BO
 {
-    public class Arme
+    public class Arme : Identity
     {
-        public int Id { get; set; }
         public string Nom { get; set; }
         public int Degats { get; set; }
     }
